@@ -47,16 +47,15 @@ function displayError(errorMessage) {
   console.error(new Error(errorMessage));
 }
 
-const getPassedUsersFirstVideoTitle = (user) => {
-  loginUser(user, 1234)
-    .then((user) => {
-      console.log("user: ", user);
-      getUserVideos(user.userEmail);
-    })
-    
-    .then((vid) => videoDetails(vid[0]))
-    .then((titl) => console.log("title: ", titl))
-    .catch((error) => displayError(error));
+const getPassedUsersFirstVideoTitle = async (user) => {
+  try {
+    let userLogin = await loginUser(user, 1234);
+    let vid = await getUserVideos(userLogin.userEmail);
+    let title = await videoDetails(vid[0]);
+    console.log("title: ", title);
+  } catch (error) {
+    displayError(error);
+  }
 };
 console.log("Finish");
 
